@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { registerApi } from '../../../api/user'
 
 export default function RegisterForm({ showLoginForm }) {
   const formik = useFormik({
     initialValues: initialValues(),
     validationSchema: Yup.object(validationSchema()), //Yup recibe un objeto con las reglas de valdiacion
     onSubmit: formData => {
-      console.log(formData)
+      registerApi(formData)
     },
   })
   return (
