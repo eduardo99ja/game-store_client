@@ -37,3 +37,25 @@ export async function loginApi(formData) {
     return null
   }
 }
+
+export async function resetPasswordApi(email) {
+  try {
+    //console.log(email)
+    const url = `${BASE_PATH}/auth/forgot-password`
+    const params = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    }
+    const response = await fetch(url, params)
+    // console.log(response);
+    const result = await response.json()
+    //console.log(result)
+    return result
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
