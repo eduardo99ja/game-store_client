@@ -10,10 +10,14 @@ export default function Auth({ onCloseModal, setTitleModal }) {
     setShowLogin(true)
   }
   const showRegisterform = () => {
-    setTitleModal("Crear nuevo usuario")  
-    setShowLogin(false)}
+    setTitleModal('Crear nuevo usuario')
+    setShowLogin(false)
+  }
   return showLogin ? (
-    <LoginForm showRegisterform={showRegisterform} />
+    <LoginForm
+      showRegisterform={showRegisterform}
+      onCloseModal={onCloseModal}
+    />
   ) : (
     <RegisterForm showLoginForm={showLoginForm} />
   )
