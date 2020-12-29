@@ -13,7 +13,7 @@ export default function MenuWeb() {
 
   useEffect(() => {
     //para que el useEffect se asincrono, se crea una funcion anonima que se autollama
-    (async () => {
+    ;(async () => {
       const response = await getMeApi(logout)
       setUser(response)
     })()
@@ -29,10 +29,12 @@ export default function MenuWeb() {
             <MenuPlatforms />
           </Grid.Column>
           <Grid.Column className='menu__right' width={10}>
-            {auth ? (
-              <button onClick={logout}>Cerrar sesion</button>
-            ) : (
-              <MenuOptions onShowModal={onShowModal} />
+            {user !== undefined && (
+              <MenuOptions
+                onShowModal={onShowModal}
+                user={user}
+                logout={logout}
+              />
             )}
           </Grid.Column>
         </Grid>
@@ -65,13 +67,44 @@ function MenuPlatforms() {
   )
 }
 
-function MenuOptions({ onShowModal }) {
+function MenuOptions({ onShowModal, user, logout }) {
   return (
     <Menu>
-      <Menu.Item onClick={onShowModal}>
-        <Icon name='user outline' />
-        Mi Cuenta
-      </Menu.Item>
+      {user ? (
+        <>
+          <Link href='/orders'>
+            <Menu.Item as='a'>
+              <Icon name='game' />
+              Mis pedidos
+            </Menu.Item>
+          </Link>
+          <Link href='/wishlist'>
+            <Menu.Item as='a'>
+              <Icon name='heart outline' />
+              Mis favoritos
+            </Menu.Item>
+          </Link>
+          <Link href='/account'>
+            <Menu.Item as='a'>
+              <Icon name='user outline' />
+              {user.name} {user.lastname}
+            </Menu.Item>
+          </Link>
+          <Link href='/cart'>
+            <Menu.Item as='a' className='m-0'>
+              <Icon name='cart' />
+            </Menu.Item>
+          </Link>
+          <Menu.Item onClick={logout} className='m-0'>
+            <Icon name='power off' />
+          </Menu.Item>
+        </>
+      ) : (
+        <Menu.Item onClick={onShowModal}>
+          <Icon name='user outline' />
+          Mi Cuenta
+        </Menu.Item>
+      )}
     </Menu>
   )
 }
