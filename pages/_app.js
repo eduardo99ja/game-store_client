@@ -22,7 +22,7 @@ export default function MyApp({ Component, pageProps }) {
       setAuth(null)
     }
     setReloadUser(false)
-  }, [setReloadUser])
+  }, [reloadUser])
   const login = token => {
     setToken(token)
     setAuth({

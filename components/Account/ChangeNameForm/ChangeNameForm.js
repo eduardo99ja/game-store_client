@@ -1,14 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Form, Button } from 'semantic-ui-react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { toast } from 'react-toastify'
-export default function ChangeNameForm({ user }) {
+import { updateNameApi } from '../../../api/user'
+export default function ChangeNameForm({ user, logout, setReloadUser }) {
+  const [loading, setLoading] = useState(false)
   const formik = useFormik({
     initialValues: initialValues(user.name, user.lastname),
     validationSchema: Yup.object(validationSchema()),
-    onSubmit: formData => {
-      console.log(formData)
+    onSubmit: async formData => {
+      setLoading(true)
+      const response = await updateNameApi(user.id, formData, logout)
+      if (!response) {
+        toast.error('Error al actualizar')
+      } else {
+        setReloadUser(true)
+        toast.success('Actualizado correctamente')
+      }
+      setLoading(false)
     },
   })
   return (
@@ -31,7 +41,9 @@ export default function ChangeNameForm({ user }) {
             error={formik.errors.lastname}
           />
         </Form.Group>
-        <Button className='submit'>Actualizar</Button>
+        <Button className='submit' loading={loading}>
+          Actualizar
+        </Button>
       </Form>
     </div>
   )
