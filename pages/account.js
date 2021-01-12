@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { Icon } from 'semantic-ui-react'
 import { useRouter } from 'next/router'
 import BasicLayout from '../layouts/BasicLayout'
 import useAuth from '../hooks/useAuth'
@@ -31,6 +32,7 @@ export default function Account() {
         logout={logout}
         setReloadUser={setReloadUser}
       />
+      <Addresses />
     </BasicLayout>
   )
 }
@@ -51,6 +53,20 @@ function Configuration({ user, logout, setReloadUser }) {
           setReloadUser={setReloadUser}
         />
         <ChangePasswordForm user={user} logout={logout} />
+      </div>
+    </div>
+  )
+}
+
+function Addresses() {
+  return (
+    <div className='account__addresses'>
+      <div className='title'>
+        Direcciones
+        <Icon name='plus' link />
+      </div>
+      <div className='data'>
+        <p>Lista de direcciones</p>
       </div>
     </div>
   )
